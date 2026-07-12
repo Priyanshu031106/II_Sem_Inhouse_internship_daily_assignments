@@ -1,3 +1,4 @@
+<?php include "../common/db_connect.php" ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>SB Admin 2 - Cards</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -42,7 +43,7 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
@@ -50,7 +51,6 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
-
 
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -70,8 +70,6 @@
                 </div>
             </li>
 
-
-
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -79,8 +77,6 @@
             <div class="sidebar-heading">
                 Addons
             </div>
-
-
 
 
             <!-- Nav Item - Tables -->
@@ -97,8 +93,6 @@
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
-
 
         </ul>
         <!-- End of Sidebar -->
@@ -147,11 +141,6 @@
                         </li>
 
 
-
-
-
-
-
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -185,52 +174,71 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-
+                        <h1 class="h3 mb-0 text-gray-800">Edit Student</h1>
                     </div>
 
-                    <!-- Content Row -->
                     <div class="row">
 
+                        <div class="col-lg-12">
 
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Students</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">100</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            <!-- Default Card Example -->
+                            <div class="card mb-4">
+
+
+
+
+                                <div class="card-body p-0">
+                                    <!-- Nested Row within Card Body -->
+                                    <div class="row">
+
+                                        <div class="col-lg-7">
+                                            <div class="p-5">
+                                                <h2 class="h4 text-gray-900 mb-4">Update Student Info</h2>
+
+                                                <?php
+                                                $id = $_GET['id'];
+                                                $query = "select * from students where id = $id";
+                                                $result = mysqli_query($conn, $query);
+                                                $data = mysqli_fetch_assoc($result);
+
+                                                // print_r($data);
+                                                // die;
+                                                ?>
+
+                                                <form class="user" action="edit_student_submit.php" method="POST">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control form-control-user"
+                                                            placeholder="Name" name="name" value="<?php echo $data['name'] ?>">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="email" class="form-control form-control-user"
+                                                            placeholder="Email Address" name="email" value="<?php echo $data['email'] ?>">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control form-control-user"
+                                                            placeholder="College" name="college" value="<?php echo $data['college'] ?>">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control form-control-user"
+                                                            placeholder="Branch" name="branch" value="<?php echo $data['branch'] ?>">
+                                                    </div>
+                                                    <input type="hidden" name="id" value="<?php echo $data['id'] ?>">
+                                                    <button class="btn btn-primary btn-user btn-block">
+                                                        Update Info
+                                                    </button>
+
+                                                </form>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
+
+
                             </div>
                         </div>
-
-
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Contacts</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">50</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
                     </div>
-
 
                 </div>
                 <!-- /.container-fluid -->
@@ -242,7 +250,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; Your Website 2020</span>
                     </div>
                 </div>
             </footer>

@@ -1,3 +1,5 @@
+<?php session_start();
+include '../common/db_connect.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>SB Admin 2 - Buttons</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -42,7 +44,7 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
@@ -83,6 +85,7 @@
 
 
 
+
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" href="contacts.html">
@@ -97,8 +100,6 @@
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
-
 
         </ul>
         <!-- End of Sidebar -->
@@ -184,53 +185,76 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Students</h1>
 
-                    </div>
+                    <?php if(isset($_SESSION['message'])){ ?>
+                        <div class="alert alert-success" role="alert">
+                        <?php echo $_SESSION['message'] ?>
+                        </div>
+                    <?php } unset($_SESSION['message']); ?>    
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
 
-                    <!-- Content Row -->
-                    <div class="row">
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>College</th>
+                                            <th>Branch</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>College</th>
+                                            <th>Branch</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    <?php
+                                    $query = "SELECT * from students";
 
-
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Students</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">100</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
+                                    $result = mysqli_query($conn, $query);
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                    ?>
+                                        <tr>
+                                            <td><?php echo $row['id'] ?></td>
+                                            <td><?php echo $row['name'] ?></td>
+                                            <td><?php echo $row['email'] ?></td>
+                                            <td><?php echo $row['college'] ?></td>
+                                            <td><?php echo $row['branch'] ?></td>
+                                            <td class="  ">
+                                                <a href="edit_student.php?id=<?php echo $row['id'] ?>" class="btn btn-primary btn-sm">
+                                                    <span class="  text-white-50">
+                                                        <i class="fas fa-edit"></i>
+                                                    </span>
+                                                    <span class="text">Edit</span>
+                                                </a>
+                                                <a href="#" onclick="deleteStudent(<?php echo $row['id'] ?>)" class="btn btn-danger btn-sm">
+                                                    <span class="  text-white-50">
+                                                        <i class="fas fa-trash"></i>
+                                                    </span>
+                                                    <span class="text">Delete</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                       <?php } ?>                                           
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-
-
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Contacts</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">50</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
                     </div>
-
 
                 </div>
                 <!-- /.container-fluid -->
@@ -242,7 +266,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; Your Website 2020</span>
                     </div>
                 </div>
             </footer>
@@ -288,7 +312,13 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
+    <script>
+        function deleteStudent(id){
+            if(confirm('Are you sure want to delete this student record')){
+                window.location = 'delete_student.php?id='+id;
+            }
+        }
+    </script>    
 </body>
 
 </html>
